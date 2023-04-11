@@ -80,7 +80,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gardening',
+        'NAME': 'track',
         'USER': getenv("POSTGRES_USER"),
         'PASSWORD': getenv("POSTGRES_PASSWORD"),
         # 'PASSWORD': 'o030101',
