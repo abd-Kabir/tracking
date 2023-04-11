@@ -122,6 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = 'static/'
+STATIC_ROOT = join_path(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     join_path(BASE_DIR, 'static'),
 ]
