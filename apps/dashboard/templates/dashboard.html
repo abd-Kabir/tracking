@@ -203,62 +203,72 @@
                                 </thead>
 
                                 <tbody>
-                                {% for track in tracks %}
-                                    <tr role="row" class="odd"
-                                        onclick="location.href='update-page/{{ track.id }}/'"
-                                        style="cursor: pointer">
-                                        {% if track.order_num %}
-                                            <td tabindex="0" class="sorting_1">
-                                                {{ track.order_num }}
-                                            </td>
-                                        {% else %}
-                                            <td tabindex="0" class="sorting_1"></td>
-                                        {% endif %}
-                                        {% if track.box %}
-                                            <td>{{ track.box }}</td>
-                                        {% else %}
-                                            <td></td>
-                                        {% endif %}
-                                        <td>{{ track.container }}</td>
-                                        <td>{{ track.shipper }}</td>
-                                        <td>{{ track.cargo }}</td>
-                                        <td>{{ track.customer }}</td>
-                                        {% if track.dispatch %}
-                                            <td>{{ track.dispatch }}</td>
-                                        {% else %}
-                                            <td></td>
-                                        {% endif %}
-                                        {% if track.load_date %}
-                                            <td>{{ track.load_date }}</td>
-                                        {% else %}
-                                            <td></td>
-                                        {% endif %}
-                                        <td>{{ track.agent }}</td>
-                                        <td>{{ track.location }}</td>
-                                        <td>{{ track.consignee }}</td>
-                                        <td id="status_td">{{ track.get_status_display }}</td>
-                                        {% if user.groups.first.name != 'office_manager' %}
-                                            {% if track.price %}
-                                                <td>{{ track.price }}</td>
+                                {% if tracks %}
+                                    {% for track in tracks %}
+                                        <tr role="row" class="odd"
+                                            onclick="location.href='update-page/{{ track.id }}/'"
+                                            style="cursor: pointer">
+                                            {% if track.order_num %}
+                                                <td tabindex="0" class="sorting_1">
+                                                    {{ track.order_num }}
+                                                </td>
+                                            {% else %}
+                                                <td tabindex="0" class="sorting_1"></td>
+                                            {% endif %}
+                                            {% if track.box %}
+                                                <td>{{ track.box }}</td>
                                             {% else %}
                                                 <td></td>
                                             {% endif %}
-                                            {% if track.client_price %}
-                                                <td>{{ track.client_price }}</td>
+                                            <td>{{ track.container }}</td>
+                                            <td>{{ track.shipper }}</td>
+                                            <td>{{ track.cargo }}</td>
+                                            <td>{{ track.customer }}</td>
+                                            {% if track.dispatch %}
+                                                <td>{{ track.dispatch }}</td>
                                             {% else %}
                                                 <td></td>
                                             {% endif %}
-                                            {% if track.client_price %}
-                                                <td>{{ track.client_price }}</td>
+                                            {% if track.load_date %}
+                                                <td>{{ track.load_date }}</td>
                                             {% else %}
                                                 <td></td>
                                             {% endif %}
-                                            {#                                            <td>{{ track.price }}</td>#}
-                                            {#                                            <td>{{ track.client_price }}</td>#}
-                                            {#                                            <td>{{ track.extra_expense }}</td>#}
-                                        {% endif %}
+                                            <td>{{ track.agent }}</td>
+                                            <td>{{ track.location }}</td>
+                                            <td>{{ track.consignee }}</td>
+                                            <td id="status_td">{{ track.get_status_display }}</td>
+                                            {% if user.groups.first.name != 'office_manager' %}
+                                                {% if track.price %}
+                                                    <td>{{ track.price }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
+                                                {% if track.client_price %}
+                                                    <td>{{ track.client_price }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
+                                                {% if track.client_price %}
+                                                    <td>{{ track.client_price }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
+                                                {#                                            <td>{{ track.price }}</td>#}
+                                                {#                                            <td>{{ track.client_price }}</td>#}
+                                                {#                                            <td>{{ track.extra_expense }}</td>#}
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr role="row" class="odd" style="cursor: pointer">
+                                        <td colspan="15" tabindex="0" class="sorting_1 text-center"
+                                            style="height: 80px; vertical-align: middle;">
+                                            <h4>No data found</h4>
+                                        </td>
                                     </tr>
-                                {% endfor %}
+                                {% endif %}
+
                                 </tbody>
                             </table>
                         </div>
