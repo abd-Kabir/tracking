@@ -1,0 +1,7 @@
+/venv/
+/.env
+/apps/authentication/migrations/
+/apps/dashboard/migrations/
+/db.sqlite3
+/.idea
+/logs.log
