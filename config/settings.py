@@ -82,7 +82,6 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'OPTION': {'charset': 'utf8mb4'},
         'NAME': 'track',
         'USER': getenv("POSTGRES_USER"),
         'PASSWORD': getenv("POSTGRES_PASSWORD"),
