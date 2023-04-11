@@ -18,7 +18,9 @@ SECRET_KEY = getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost:8000', 'localhost', 'uzll.uz:8000/', 'uzll.uz', '80.87.202.231', '80.87.202.231:8000'
+]
 
 # Application definition
 
@@ -74,19 +76,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'track',
-        'USER': getenv("POSTGRES_USER"),
-        'PASSWORD': getenv("POSTGRES_PASSWORD"),
-        # 'PASSWORD': 'o030101',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'track',
+    #     'USER': getenv("POSTGRES_USER"),
+    #     'PASSWORD': getenv("POSTGRES_PASSWORD"),
+    #     # 'PASSWORD': 'o030101',
+    #     'HOST': 'localhost',
+    #     'PORT': '',
+    # }
 }
 
 # Password validation
