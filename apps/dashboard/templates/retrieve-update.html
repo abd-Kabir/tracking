@@ -1,0 +1,153 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home Page
+{% endblock %}
+{% block content %}
+    {#    {% if user.is_authenticated %}#}
+    <div class="content-page">
+        <div class="content border-primary-custom">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <form method="post" action="{% url 'dashboard:update' track.id %}">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="order_num">Order Number</label>
+                                    {% if track.order_num %}
+                                        <input class="form-control" id="order_num" name="order_num"
+                                               type="text" value="{{ track.order_num }}">
+                                    {% else %}
+                                        <input class="form-control" id="order_num" name="order_num"
+                                               type="text" value="">
+                                    {% endif %}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="box">Box</label>
+                                    {% if track.order_num %}
+                                        <input class="form-control" id="box" name="box"
+                                               type="text" value="{{ track.box }}">
+                                    {% else %}
+                                        <input class="form-control" id="box" name="box"
+                                               type="text" value="">
+                                    {% endif %}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="container">Container</label>
+                                    <input class="form-control" id="container" name="container"
+                                           type="text" value="{{ track.container }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="shipper">Shipper</label>
+                                    <input class="form-control" id="shipper" name="shipper"
+                                           type="text" value="{{ track.shipper }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cargo">Cargo</label>
+                                    <input class="form-control" id="cargo" name="cargo"
+                                           type="text" value="{{ track.cargo }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="customer">Customer</label>
+                                    <input class="form-control" id="customer" name="customer"
+                                           type="text" value="{{ track.customer }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="dispatch">Load Date</label>
+                                    <input class="form-control" id="dispatch" name="dispatch"
+                                           type="date" value="{{ track.dispatch|date:"Y-m-d" }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="load_date">Load Date</label>
+                                    <input class="form-control" id="load_date" name="load_date"
+                                           type="date" value="{{ track.load_date|date:"Y-m-d" }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="agent">Agent</label>
+                                    <input class="form-control" id="agent" name="agent"
+                                           type="text" value="{{ track.agent }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="location">Location</label>
+                                    <input class="form-control" id="location" name="location"
+                                           type="text" value="{{ track.location }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="consignee">Consignee</label>
+                                    <input class="form-control" id="consignee" name="consignee"
+                                           type="text" value="{{ track.consignee }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status" class="form-control">
+                                        {% if track.status == 0 %}
+                                            <option selected value="0">Waiting</option>
+                                            <option value="1">Given</option>
+                                        {% else %}
+                                            <option value="0">Waiting</option>
+                                            <option selected value="1">Given</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                {% if user.groups.first.name != 'office_manager' %}
+                                    <div class="form-group col-md-6">
+                                        <label for="price">Price</label>
+                                        {% if track.price %}
+                                            <input class="form-control" id="price" name="price"
+                                                   type="text" value="{{ track.price }}">
+                                        {% else %}
+                                            <input class="form-control" id="price" name="price"
+                                                   type="text" value="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="client_price">Client Price</label>
+                                        {% if track.client_price %}
+                                            <input class="form-control" id="price" name="client_price"
+                                                   type="text" value="{{ track.client_price }}">
+                                        {% else %}
+                                            <input class="form-control" id="price" name="client_price"
+                                                   type="text" value="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="extra_expense">Extra Expense</label>
+                                        {% if track.extra_expense %}
+                                            <input class="form-control" id="price" name="extra_expense"
+                                                   type="text" value="{{ track.extra_expense }}">
+                                        {% else %}
+                                            <input class="form-control" id="price" name="extra_expense"
+                                                   type="text" value="">
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-secondary" href="{% url 'dashboard:list' %}">Back</a>
+                                <input type="submit" class="btn btn-warning" value="Update">
+                            </div>
+                        </form>
+                        {% if user.groups.first.name != 'office_manager' %}
+                            <form method="post" action="{% url 'dashboard:delete' track.id %}"
+                            style="position:absolute; bottom: 0; left: 159px">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                    </div>
+                                </div>
+                            </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    {% else %}#}
+    {#        <h2 class="text-center mt-3">Please Sign</h2>#}
+    {#    {% endif %}#}
+{% endblock %}
+

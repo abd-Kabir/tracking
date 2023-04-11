@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    {#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+    <meta content="Responsive bootstrap 4 admin template" name="description"/>
+    <meta content="Coderthemes" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- App favicon -->
+    {#    <link rel="shortcut icon" href="assets/images/favicon.ico">#}
+    <!-- App css -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet"/>
+    <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/app.min.css' %}" rel="stylesheet" type="text/css" id="app-stylesheet"/>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css"/>
+
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        #wrapper {
+            background-color: transparent;
+        }
+
+        .c-content {
+            height: 100%;
+            min-height: calc(100vh - 100px) !important;
+            background-color: #fff;
+            display: flex;
+            align-items: center
+        }
+    </style>
+</head>
+
+<section class="container">
+    <div class="row">
+        <section class="offset-2 col-8">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div
+                                {% if message.tags %}
+                                    class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                                    role="alert"
+                                {% endif %}>
+
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+    </div>
+</section>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+
+    <!-- Topbar Start -->
+    <div class="navbar-custom">
+        <ul class="list-unstyled topnav-menu float-right mb-0">
+            <li class="notification-list">
+                {% if user.is_authenticated %}
+                    <span class="nav-link dropdown-toggle nav-user mr-0 login-hover" data-toggle="dropdown" href="#"
+                          role="button"
+                          aria-haspopup="false" aria-expanded="false">
+                        <span class="pro-user-name ml-1">
+                            {{ user.groups.first }}
+                        </span>
+                    </span>
+                {% else %}
+                    <a class="nav-link dropdown-toggle nav-user mr-0 login-hover" href="{% url 'auth:login' %}"
+                       role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                             class="bi bi-box-arrow-in-right" viewBox="0 0 16 16"
+                             style="margin: 0 10px 0 0">
+                            <path fill-rule="evenodd"
+                                  d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                            <path fill-rule="evenodd"
+                                  d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                        </svg>
+                        <span>Login</span>
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+
+        <!-- LOGO -->
+        <div class="logo-box">
+            <a href="{% url 'dashboard:list' %}" class="logo text-center logo-dark">
+                <span class="logo-lg">
+{#                    <img src="assets/images/logo-dark.png" alt="" height="26">#}
+                    <span class="logo-lg-text-dark">Tracking</span>
+                </span>
+                <span class="logo-sm">
+                    <span class="logo-lg-text-dark">T</span>
+{#                    <img src="assets/images/logo-sm.png" alt="" height="22">#}
+                </span>
+            </a>
+
+
+        </div>
+    </div>
+    <!-- end Topbar -->
+
+
+    <!-- 404 Page -->
+    <div class="content-page ml-0">
+        <div class="content border-primary-custom c-content"
+             style="">
+            <!-- Start container-fluid -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center flex-column">
+                            <h1 style="font-size: 60px" class="mb-3 h1 text-center text-primary">Ooops!</h1>
+                            <p style="font-size: 20px" class="header-title text-center w-100">
+                                <b>404</b><i> - page not found</i>
+                            </p>
+                            <a class="btn btn-primary" href="{% url 'dashboard:list' %}">Go to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end container-fluid -->
+
+
+        </div>
+        <!-- end content -->
+
+    </div>
+    <!-- end 404 Page -->
+
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- Right bar overlay-->
+{#<div class="rightbar-overlay"></div>#}
+
+
+<!-- Vendor js -->
+<script src="{% static 'js/vendor.min.js' %}"></script>
+
+<script src="{% static 'libs/morris-js/morris.min.js' %}"></script>
+<script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+
+<script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+<!-- App js -->
+<script src="{% static 'js/app.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

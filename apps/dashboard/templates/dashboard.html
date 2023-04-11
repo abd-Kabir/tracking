@@ -1,0 +1,345 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+{% block content %}
+    {#    {% if user.is_authenticated %}#}
+
+
+    <div class="content-page">
+        <div class="min-height-jk content border-primary-custom">
+
+            <!-- Start container-fluid -->
+            <div class="container-fluid">
+                {% if user.is_authenticated %}
+                    <!--Welcome -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div>
+                                <h4 class="header-title mb-3">Welcome !</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Welcome -->
+
+                    <!--Statistics -->
+                    {% if user.groups.first.name != 'office_manager' %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div>
+                                    <div class="card-box widget-inline">
+                                        <div class="row">
+                                            <div class="col-xl-3 col-sm-6 widget-inline-box">
+                                                <div class="text-center p-2">
+                                                    <h2 class="mt-2"><i
+                                                            class="text-primary mdi mdi-access-point-network mr-2"></i>
+                                                        <b>{{ totals.tracks_count }}</b></h2>
+                                                    <p class="text-muted mb-0">Tracks</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-3 col-sm-6 widget-inline-box">
+                                                <div class="text-center p-2">
+                                                    <h2 class="mt-2"><i class="text-teal mdi mdi-airplay mr-2"></i>
+                                                        <b>{{ totals.price }}</b>
+                                                    </h2>
+                                                    <p class="text-muted mb-0">Total of Price</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-3 col-sm-6 widget-inline-box">
+                                                <div class="text-center p-2">
+                                                    <h2 class="mt-2"><i class="text-info mdi mdi-black-mesa mr-2"></i>
+                                                        <b>{{ totals.client_price }}</b></h2>
+                                                    <p class="text-muted mb-0">Total of Client Price</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-3 col-sm-6">
+                                                <div class="text-center p-2">
+                                                    <h2 class="mt-2"><i
+                                                            class="text-danger mdi mdi-cellphone-link mr-2"></i>
+                                                        <b>{{ totals.extra_expense }}</b>
+                                                    </h2>
+                                                    <p class="text-muted mb-0">Total of Extra Expenses</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!--End Statistics -->
+
+                    <!--TableFilters -->
+                    <div class="row mt-3 mb-3">
+                        <div class="col-sm-12 col-md-3">
+                            <div id="datatable_filter"
+                                 class="dataTables_filter d-flex justify-content-center align-items-center h-100">
+                                <label class="mr-2 mb-0" for="search_id">Search:</label>
+                                <input type="search" class="form-control form-control-sm h-100" id="search_id"
+                                       aria-controls="datatable" onkeyup="tableSearch()">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="dataTables_filter d-flex justify-content-center align-items-center">
+                                <label class="mr-2 mb-0" for="status_id">Status:</label>
+                                <select id='status_id' class="form-control" name="status" oninput="filterTable()">
+                                    <option selected value="">Please Select</option>
+                                    <option value=0>Waiting</option>
+                                    <option value=1>Given</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End TableFilters -->
+
+                    <!--Table -->
+                    <div class="row">
+                        <div class="col-sm-12" style="overflow-x: scroll">
+                            <table id="datatable"
+                                   class="table table-bordered dt-responsive nowrap dataTable
+                               no-footer dtr-inline collapsed"
+                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;" role="grid"
+                                   aria-describedby="datatable_info">
+                                <thead>
+                                <tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 100px"
+                                        aria-label="Salary: activate to sort column ascending">
+                                        Order Number
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 65px"
+                                        aria-label="Position: activate to sort column ascending">
+                                        Box
+                                    </th>
+                                    <th class="sorting_asc" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 130px;" aria-sort="ascending"
+                                        aria-label="Name: activate to sort column descending">
+                                        Container
+                                    </th>
+                                    <th class="sorting_asc" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 180px;" aria-sort="ascending"
+                                        aria-label="Name: activate to sort column descending">
+                                        Shipper
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 100px"
+                                        aria-label="Salary: activate to sort column ascending">
+                                        Cargo
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 125px"
+                                        aria-label="Age: activate to sort column ascending">
+                                        Customer
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 120px"
+                                        aria-label="Office: activate to sort column ascending">
+                                        Dispatch
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 120px"
+                                        aria-label="Office: activate to sort column ascending">
+                                        Date of load
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 80px"
+                                        aria-label="Salary: activate to sort column ascending">
+                                        Agent
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 120px"
+                                        aria-label="Start date: activate to sort column ascending">
+                                        Location
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 120px"
+                                        aria-label="Salary: activate to sort column ascending">
+                                        Consignee
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable"
+                                        rowspan="1" colspan="1"
+                                        style="min-width: 60px"
+                                        aria-label="Salary: activate to sort column ascending">
+                                        Status
+                                    </th>
+                                    {% if user.groups.first.name != 'office_manager' %}
+                                        <th class="sorting" tabindex="0" aria-controls="datatable"
+                                            rowspan="1" colspan="1"
+                                            style="width: 100px"
+                                            aria-label="Salary: activate to sort column ascending">
+                                            Price
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable"
+                                            rowspan="1" colspan="1"
+                                            style="width: 100px;"
+                                            aria-label="Salary: activate to sort column ascending">
+                                            Client price
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable"
+                                            rowspan="1" colspan="1"
+                                            style="width: 100px"
+                                            aria-label="Salary: activate to sort column ascending">
+                                            Extra Expense
+                                        </th>
+                                    {% endif %}
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for track in tracks %}
+                                    <tr role="row" class="odd"
+                                        onclick="location.href='update-page/{{ track.id }}/'"
+                                        style="cursor: pointer">
+                                        {% if track.order_num %}
+                                            <td tabindex="0" class="sorting_1">
+                                                {{ track.order_num }}
+                                            </td>
+                                        {% else %}
+                                            <td tabindex="0" class="sorting_1"></td>
+                                        {% endif %}
+                                        {% if track.box %}
+                                            <td>{{ track.box }}</td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td>{{ track.container }}</td>
+                                        <td>{{ track.shipper }}</td>
+                                        <td>{{ track.cargo }}</td>
+                                        <td>{{ track.customer }}</td>
+                                        {% if track.dispatch %}
+                                            <td>{{ track.dispatch }}</td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        {% if track.load_date %}
+                                            <td>{{ track.load_date }}</td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td>{{ track.agent }}</td>
+                                        <td>{{ track.location }}</td>
+                                        <td>{{ track.consignee }}</td>
+                                        <td id="status_td">{{ track.get_status_display }}</td>
+                                        {% if user.groups.first.name != 'office_manager' %}
+                                            {% if track.price %}
+                                                <td>{{ track.price }}</td>
+                                            {% else %}
+                                                <td></td>
+                                            {% endif %}
+                                            {% if track.client_price %}
+                                                <td>{{ track.client_price }}</td>
+                                            {% else %}
+                                                <td></td>
+                                            {% endif %}
+                                            {% if track.client_price %}
+                                                <td>{{ track.client_price }}</td>
+                                            {% else %}
+                                                <td></td>
+                                            {% endif %}
+                                            {#                                            <td>{{ track.price }}</td>#}
+                                            {#                                            <td>{{ track.client_price }}</td>#}
+                                            {#                                            <td>{{ track.extra_expense }}</td>#}
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <!--End Table -->
+
+                    <!--TablePagination -->
+                    {#                    <div class="row mt-3">#}
+                    {#                        <div class="col-sm-12 col-md-5">#}
+                    {#                            <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">#}
+                    {#                                {% if tracks.paginator.num_pages == 1 %}#}
+                    {#                                {% else %}#}
+                    {#                                    Page {{ tracks.number }} of {{ tracks.paginator.num_pages }}#}
+                    {#                                {% endif %}#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                        <div class="col-sm-12 col-md-7">#}
+                    {#                            <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">#}
+                    {#                                {% if tracks.paginator.num_pages != 1 %}#}
+                    {#                                    <ul class="pagination float-right">#}
+                    {#                                        <li class="paginate_button page-item previous" id="datatable_previous">#}
+                    {#                                            {% if tracks.has_previous %}#}
+                    {#                                                <a href="?page={{ tracks.previous_page_number }}"#}
+                    {#                                                   aria-controls="datatable"#}
+                    {#                                                   data-dt-idx="7" tabindex="0" class="page-link">Previous</a>#}
+                    {#                                            {% endif %}#}
+                    {#                                        </li>#}
+                    {##}
+                    {#                                        {% for page in tracks.paginator.page_range %}#}
+                    {#                                            {% if tracks.number == page %}#}
+                    {#                                                <li class="paginate_button page-item active">#}
+                    {#                                                    <a href="?page={{ page }}" aria-controls="datatable"#}
+                    {#                                                       class="page-link">#}
+                    {#                                                        {{ page }}#}
+                    {#                                                    </a>#}
+                    {#                                                </li>#}
+                    {#                                            {% else %}#}
+                    {#                                                <li class="paginate_button page-item">#}
+                    {#                                                    <a href="?page={{ page }}" aria-controls="datatable"#}
+                    {#                                                       class="page-link">#}
+                    {#                                                        {{ page }}#}
+                    {#                                                    </a>#}
+                    {#                                                </li>#}
+                    {#                                            {% endif %}#}
+                    {#                                        {% endfor %}#}
+                    {##}
+                    {#                                        <li class="paginate_button page-item next" id="datatable_next">#}
+                    {#                                            {% if tracks.has_next %}#}
+                    {#                                                <a href="?page={{ tracks.next_page_number }}" aria-controls="datatable"#}
+                    {#                                                   data-dt-idx="7" tabindex="0" class="page-link">Next</a>#}
+                    {#                                            {% endif %}#}
+                    {#                                        </li>#}
+                    {#                                    </ul>#}
+                    {#                                {% endif %}#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    <!--End TablePagination -->
+                {% else %}
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <div>
+                                <h4 class="text-center header-title mb-3">You are not logged in!</h4>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+            <!-- end container-fluid -->
+
+
+        </div>
+        <!-- end content -->
+
+    </div>
+
+
+    {#    {% else %}#}
+    {#        <h2 class="text-center mt-3">Please Sign</h2>#}
+    {#    {% endif %}#}
+{% endblock %}
+

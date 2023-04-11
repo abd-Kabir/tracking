@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    {#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+    <meta content="Responsive bootstrap 4 admin template" name="description"/>
+    <meta content="Coderthemes" name="author"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- App favicon -->
+    {#    <link rel="shortcut icon" href="assets/images/favicon.ico">#}
+    <!-- App css -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet"/>
+    <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/app.min.css' %}" rel="stylesheet" type="text/css" id="app-stylesheet"/>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css"/>
+</head>
+
+<section class="container">
+    <div class="row">
+        <section class="offset-2 col-8">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div
+                                {% if message.tags %}
+                                    class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                                    role="alert"
+                                {% endif %}>
+
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+    </div>
+</section>
+
+<body class="enlarged">
+
+<!-- Begin page -->
+<div id="wrapper">
+
+
+    <!-- Topbar Start -->
+    <div class="navbar-custom">
+        <ul class="list-unstyled topnav-menu float-right mb-0">
+            <li class="notification-list">
+                {% if user.is_authenticated %}
+                    <span class="nav-link dropdown-toggle nav-user mr-0 login-hover" data-toggle="dropdown" href="#"
+                          role="button"
+                          aria-haspopup="false" aria-expanded="false">
+                        <span class="pro-user-name ml-1">
+                            {{ user.first_name }}
+                        </span>
+                    </span>
+                {% else %}
+                    <a class="nav-link dropdown-toggle nav-user mr-0 login-hover" href="{% url 'auth:login' %}"
+                       role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                             class="bi bi-box-arrow-in-right" viewBox="0 0 16 16"
+                             style="margin: 0 10px 0 0">
+                            <path fill-rule="evenodd"
+                                  d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                            <path fill-rule="evenodd"
+                                  d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                        </svg>
+                        <span>Login</span>
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+
+        <!-- LOGO -->
+        <div class="logo-box">
+            <a href="{% url 'dashboard:list' %}" class="logo text-center logo-dark">
+                <span class="logo-lg">
+{#                    <img src="assets/images/logo-dark.png" alt="" height="26">#}
+                    <span class="logo-lg-text-dark">UZLL</span>
+                </span>
+                <span class="logo-sm">
+                    <span class="logo-lg-text-dark">UZLL</span>
+{#                    <img src="assets/images/logo-sm.png" alt="" height="22">#}
+                </span>
+            </a>
+
+
+        </div>
+
+        <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+            <li>
+                <button class="button-menu-mobile">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+            </li>
+
+            <li class="d-none d-sm-block">
+                <form class="app-search">
+                    <div class="app-search-box">
+                        <div class="input-group">
+                            <label for="global-search"></label>
+                            <input type="text" id="global-search" name="global-search" class="form-control"
+                                   placeholder="Search...">
+                            <div class="input-group-append">
+                                <button class="btn" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <!-- end Topbar -->
+
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left-side-menu border-primary-custom">
+
+        <div class="user-box">
+            <div class="user-info ml-0">
+                {% if user.is_authenticated %}
+                    <span style="font-size: 18px; font-weight: bold">{{ user.first_name }}</span>
+                {% else %}
+                    <a href="{% url 'auth:login' %}">Login to get access to all pages</a>
+                {% endif %}
+                <p class="text-muted m-0">
+                    {% if user.is_authenticated %}
+                        {{ user.username }}
+                    {% else %}
+
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <ul class="metismenu" id="side-menu">
+                <li class="menu-title">Navigation</li>
+
+                <li>
+                    <a href="{% url 'dashboard:list' %}">
+                        <i class="ti-layout-grid2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                {% if user.groups.first.name != 'office_manager' %}
+                    <li>
+                        <a href="{% url 'dashboard:create-page' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-plus-square-fill" viewBox="0 0 16 16" style="margin: 0 11px 0 3px">
+                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                            </svg>
+                            <span>Add</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div id="sidebar-menu">
+            <ul class="metismenu" id="side-menu">
+                <li class="menu-title">Authentication</li>
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'auth:logout' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                 class="bi bi-box-arrow-left" viewBox="0 0 16 16"
+                                 style="margin: 0 10px 0 0">
+                                <path fill-rule="evenodd"
+                                      d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+                                <path fill-rule="evenodd"
+                                      d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                            </svg>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'auth:login' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                 class="bi bi-box-arrow-in-right" viewBox="0 0 16 16"
+                                 style="margin: 0 10px 0 0">
+                                <path fill-rule="evenodd"
+                                      d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                                <path fill-rule="evenodd"
+                                      d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                            </svg>
+                            <span>Login</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="clearfix"></div>
+
+    </div>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+    {% block content %}
+    {% endblock %}
+    <!-- END content-page -->
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- Right bar overlay-->
+{#<div class="rightbar-overlay"></div>#}
+
+
+<!-- Vendor js -->
+<script src="{% static 'js/vendor.min.js' %}"></script>
+
+<script src="{% static 'libs/morris-js/morris.min.js' %}"></script>
+<script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+<script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+<!-- App js -->
+<script src="{% static 'js/app.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
