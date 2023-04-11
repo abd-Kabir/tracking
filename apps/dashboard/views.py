@@ -6,6 +6,8 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, T
 from apps.dashboard.models import Track
 from datetime import datetime
 
+from config.utils.price_or_none import none_zero
+
 
 class TrackListView(ListView):
     model = Track
@@ -16,9 +18,9 @@ class TrackListView(ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         tracks_count = Track.objects.all().count()
-        price = Track.objects.aggregate(price=Sum('price')).get('price')
-        client_price = Track.objects.aggregate(client_price=Sum('client_price')).get('client_price')
-        extra_expense = Track.objects.aggregate(extra_expense=Sum('extra_expense')).get('extra_expense')
+        price = none_zero(Track.objects.aggregate(price=Sum('price')).get('price'))
+        client_price = none_zero(Track.objects.aggregate(client_price=Sum('client_price')).get('client_price'))
+        extra_expense = none_zero(Track.objects.aggregate(extra_expense=Sum('extra_expense')).get('extra_expense'))
 
         search_query = self.request.GET.get('global-search')
         if search_query:
