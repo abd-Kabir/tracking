@@ -19,7 +19,8 @@ SECRET_KEY = getenv("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost:8000', 'localhost', 'uzll.uz:8000/', 'uzll.uz', '80.87.202.231', '80.87.202.231:8000'
+    'localhost:8000', 'localhost', 'uzll.uz:8000/', 'uzll.uz', '80.87.202.231', '80.87.202.231:8000',
+    '127.0.0.1:8000', '127.0.0.1',
 ]
 
 # Application definition
@@ -81,10 +82,10 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'OPTION': {'charset': 'utf8mb4'},
         'NAME': 'track',
         'USER': getenv("POSTGRES_USER"),
         'PASSWORD': getenv("POSTGRES_PASSWORD"),
-        # 'PASSWORD': 'o030101',
         'HOST': 'localhost',
         'PORT': '',
     }
