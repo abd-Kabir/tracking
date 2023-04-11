@@ -1,11 +1,10 @@
-from django.core.paginator import Paginator
-from django.db.models import Sum, Q, CharField
+from django.db.models import Sum, Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, DeleteView
 
 from apps.dashboard.models import Track
+from datetime import datetime
 
 
 class TrackListView(ListView):
@@ -58,8 +57,8 @@ class TrackCreateView(CreateView):
     success_url = reverse_lazy('dashboard:list')
 
     def form_valid(self, form):
-        form.instance.created_at = timezone.now()
-        form.instance.updated_at = timezone.now()
+        form.instance.created_at = datetime.now()
+        form.instance.updated_at = datetime.now()
         form.instance.created_by = self.request.user
         form.instance.updated_by = self.request.user
         return super().form_valid(form)
@@ -77,7 +76,7 @@ class TrackUpdateView(UpdateView):
     success_url = reverse_lazy('dashboard:list')
 
     def form_valid(self, form):
-        form.instance.updated_at = timezone.now()
+        form.instance.updated_at = datetime.now()
         form.instance.updated_by = self.request.user
         return super().form_valid(form)
 
