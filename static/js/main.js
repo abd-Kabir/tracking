@@ -70,3 +70,7 @@ function filterTable() {
         }
     }
 }
+
+$('#id_login').one('submit', function() {
+    $(this).find('input[type="submit"]').attr('disabled','disabled');
+});

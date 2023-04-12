@@ -19,8 +19,10 @@ SECRET_KEY = getenv("SECRET_KEY")
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'localhost:8000', 'localhost', 'uzll.uz:8000/', 'uzll.uz', '80.87.202.231', '80.87.202.231:8000',
+    'localhost:8000', 'localhost',
     '127.0.0.1:8000', '127.0.0.1',
+    'uzll.uz:8000/', 'uzll.uz',
+    '80.87.202.231', '80.87.202.231:8000',
 ]
 
 # Application definition
