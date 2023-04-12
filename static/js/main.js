@@ -27,7 +27,6 @@ let rows = document.getElementById("datatable").getElementsByTagName("tbody")
 let cells;
 for (let i = 0; i < rows.length; i++) {
     cells = rows[i].getElementsByTagName('td');
-    console.log(cells[11].innerHTML)
     if (cells[11].innerHTML === 'Waiting')
         rows[i].className = "waiting-warning";
     // if (cells[11].innerHTML === 'Given' || cells[11].innerHTML === '')
@@ -49,7 +48,6 @@ function filterTable() {
         // if the filter is set to 'All', or this is the header row, or 2nd `td` text matches filter
         // console.log(country)
         if (country !== null) {
-            console.log(filter)
             if (filter === 0 || filter === "0") {
                 if (country.innerHTML === "Waiting") {
                     row.style.display = ""; // shows this row
