@@ -18,6 +18,7 @@ class Track(BaseModel):
     price = models.BigIntegerField(null=True, blank=True)
     client_price = models.BigIntegerField(null=True, blank=True)
     extra_expense = models.BigIntegerField(null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
 
     WAITING = 0
     GIVEN = 1

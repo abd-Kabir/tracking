@@ -1,5 +1,6 @@
 from django.db.models import Sum, Q
-from django.shortcuts import redirect
+from django.http import HttpResponseNotFound
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, DeleteView
 
@@ -55,7 +56,7 @@ class TrackListView(ListView):
 class TrackCreateView(CreateView):
     model = Track
     fields = ['order_num', 'box', 'container', 'shipper', 'cargo', 'customer', 'dispatch', 'load_date', 'agent',
-              'location', 'consignee', 'price', 'client_price', 'extra_expense', 'status', ]
+              'location', 'consignee', 'price', 'client_price', 'extra_expense', 'status', 'comment', ]
     success_url = reverse_lazy('dashboard:list')
 
     def form_valid(self, form):
@@ -74,7 +75,7 @@ class TrackCreateView(CreateView):
 class TrackUpdateView(UpdateView):
     model = Track
     fields = ['order_num', 'box', 'container', 'shipper', 'cargo', 'customer', 'dispatch', 'load_date', 'agent',
-              'location', 'consignee', 'price', 'client_price', 'extra_expense', 'status', ]
+              'location', 'consignee', 'price', 'client_price', 'extra_expense', 'status', 'comment', ]
     success_url = reverse_lazy('dashboard:list')
 
     def form_valid(self, form):
@@ -102,6 +103,10 @@ class TrackCreatePageView(TemplateView):
     template_name = 'retrieve-create.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.groups.first().name == 'office_manager':
-            return redirect('dashboard:list')
-        return super().dispatch(request, *args, **kwargs)
+        group = request.user.groups.first()
+        if group:
+            if group.name == 'office_manager':
+                return redirect('dashboard:list')
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return render(request, '404.html', {'message': 'You are not allowed!'})

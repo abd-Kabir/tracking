@@ -127,7 +127,11 @@
                         <div class="d-flex align-items-center flex-column">
                             <h1 style="font-size: 60px" class="mb-3 h1 text-center text-primary">Ooops!</h1>
                             <p style="font-size: 20px" class="header-title text-center w-100">
-                                <b>404</b><i> - page not found</i>
+                                {% if message %}
+                                    <b>{{ message }}</b>
+                                {% else %}
+                                    <b>404</b><i> - page not found</i>
+                                {% endif %}
                             </p>
                             <a class="btn btn-primary" href="{% url 'dashboard:list' %}">Go to Dashboard</a>
                         </div>
