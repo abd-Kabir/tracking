@@ -78,15 +78,19 @@ class TrackUpdateView(UpdateView):
               'location', 'consignee', 'price', 'client_price', 'extra_expense', 'status', 'comment', ]
     success_url = reverse_lazy('dashboard:list')
 
+    def post(self, request, **kwargs):
+        instance = self.get_object()
+        request.POST = request.POST.copy()
+        if request.user.groups.first().name != 'office_pro_manager':
+            request.POST['price'] = instance.price
+            request.POST['client_price'] = instance.client_price
+            request.POST['extra_expense'] = instance.extra_expense
+        return super(TrackUpdateView, self).post(request, **kwargs)
+
     def form_valid(self, form):
         form.instance.updated_at = datetime.now()
         form.instance.updated_by = self.request.user
         return super().form_valid(form)
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     if request.user.groups.first().name == 'office_manager':
-    #         return redirect('dashboard:list')
-    #     return super().dispatch(request, *args, **kwargs)
 
 
 class TrackDeleteView(DeleteView):
